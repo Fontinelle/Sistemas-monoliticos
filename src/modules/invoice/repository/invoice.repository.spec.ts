@@ -3,7 +3,7 @@ import { ProductModel } from './product.model';
 import { InvoiceModel } from './invoice.model';
 import Product from '../domain/product.entity';
 import Id from '../../@shared/domain/value-object/id.value-object';
-import Address from '../value-object/address';
+import Address from '../../@shared/value-object/address';
 import Invoice from '../domain/invoice.entity';
 import InvoiceRepository from './invoice.repository';
 
