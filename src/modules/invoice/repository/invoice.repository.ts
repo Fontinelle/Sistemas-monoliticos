@@ -3,8 +3,8 @@ import Invoice from '../domain/invoice.entity';
 import Product from '../domain/product.entity';
 import InvoiceGateway from '../gateway/invoice.gateway';
 import Address from '../../@shared/value-object/address';
+import { ProductInvoiceModel } from './product.model';
 import { InvoiceModel } from './invoice.model';
-import { ProductModel } from './product.model';
 
 export default class InvoiceRepository implements InvoiceGateway {
   async generate(invoice: Invoice): Promise<void> {
@@ -31,14 +31,14 @@ export default class InvoiceRepository implements InvoiceGateway {
         createdAt: invoice.createdAt,
         updatedAt: invoice.updatedAt,
       },
-      { include: [ProductModel] },
+      { include: [ProductInvoiceModel] },
     );
   }
 
   async find(id: string): Promise<Invoice> {
     const invoice = await InvoiceModel.findOne({
       where: { id },
-      include: [ProductModel],
+      include: [ProductInvoiceModel],
     });
 
     return new Invoice({

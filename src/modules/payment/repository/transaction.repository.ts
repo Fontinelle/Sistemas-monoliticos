@@ -1,6 +1,6 @@
 import Transaction from '../domain/transaction';
 import PaymentGateway from '../gateway/payment.gateway';
-import TransactionModel from './transaction.model';
+import { TransactionModel } from './transaction.model';
 
 export default class TransactionRepository implements PaymentGateway {
   async save(input: Transaction): Promise<Transaction> {

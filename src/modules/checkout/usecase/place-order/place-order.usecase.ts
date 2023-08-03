@@ -52,6 +52,7 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
     const myClient = new Client({
       id: new Id(client.id),
       name: client.name,
+      document: client.document,
       email: client.email,
       address: new Address({
         street: client.address.street,
@@ -120,9 +121,7 @@ export default class PlaceOrderUsecase implements UseCaseInterface {
         productId: p.productId,
       });
       if (product.stock <= 0) {
-        throw new Error(
-          `Product ${product.productId} is not available in stock`,
-        );
+        throw new Error(`Product ${p.productId} is not available in stock`);
       }
     }
   }

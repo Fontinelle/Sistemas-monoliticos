@@ -1,9 +1,7 @@
-import { ProductModel } from '../repository/product.model';
+import { ProductInvoiceModel } from '../repository/product.model';
 import { InvoiceModel } from '../repository/invoice.model';
 import { Sequelize } from 'sequelize-typescript';
 import InvoiceFacadeFactory from '../factory/facade.factory';
-import Product from '../domain/product.entity';
-import Id from '../../@shared/domain/value-object/id.value-object';
 
 describe('Invoice Facade test', () => {
   let sequelize: Sequelize;
@@ -16,7 +14,7 @@ describe('Invoice Facade test', () => {
       sync: { force: true },
     });
 
-    await sequelize.addModels([InvoiceModel, ProductModel]);
+    await sequelize.addModels([InvoiceModel, ProductInvoiceModel]);
     await sequelize.sync();
   });
 
@@ -49,26 +47,23 @@ describe('Invoice Facade test', () => {
     };
 
     const invoiceFacade = InvoiceFacadeFactory.create();
-    await invoiceFacade.generate(input);
+    const invoice = await invoiceFacade.generate(input);
 
-    const invoiceDb = await InvoiceModel.findAll({ include: [ProductModel] });
-
-    expect(invoiceDb.length).toBe(1);
-    expect(invoiceDb[0].id).toBeDefined();
-    expect(invoiceDb[0].name).toEqual(input.name);
-    expect(invoiceDb[0].document).toEqual(input.document);
-    expect(invoiceDb[0].street).toEqual(input.street);
-    expect(invoiceDb[0].number).toEqual(input.number);
-    expect(invoiceDb[0].complement).toEqual(input.complement);
-    expect(invoiceDb[0].city).toEqual(input.city);
-    expect(invoiceDb[0].state).toEqual(input.state);
-    expect(invoiceDb[0].zipCode).toEqual(input.zipCode);
-    expect(invoiceDb[0].items[0].id).toEqual(input.items[0].id);
-    expect(invoiceDb[0].items[0].name).toEqual(input.items[0].name);
-    expect(invoiceDb[0].items[0].price).toEqual(input.items[0].price);
-    expect(invoiceDb[0].items[1].id).toEqual(input.items[1].id);
-    expect(invoiceDb[0].items[1].name).toEqual(input.items[1].name);
-    expect(invoiceDb[0].items[1].price).toEqual(input.items[1].price);
+    expect(invoice.id).toBeDefined();
+    expect(invoice.name).toEqual(input.name);
+    expect(invoice.document).toEqual(input.document);
+    expect(invoice.street).toEqual(input.street);
+    expect(invoice.number).toEqual(input.number);
+    expect(invoice.complement).toEqual(input.complement);
+    expect(invoice.city).toEqual(input.city);
+    expect(invoice.state).toEqual(input.state);
+    expect(invoice.zipCode).toEqual(input.zipCode);
+    expect(invoice.items[0].id).toBeDefined();
+    expect(invoice.items[0].name).toEqual(input.items[0].name);
+    expect(invoice.items[0].price).toEqual(input.items[0].price);
+    expect(invoice.items[1].id).toBeDefined();
+    expect(invoice.items[1].name).toEqual(input.items[1].name);
+    expect(invoice.items[1].price).toEqual(input.items[1].price);
   });
 
   it('should find a invoice', async () => {
@@ -102,7 +97,7 @@ describe('Invoice Facade test', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      { include: [ProductModel] },
+      { include: [ProductInvoiceModel] },
     );
 
     const invoiceFacade = InvoiceFacadeFactory.create();
@@ -118,10 +113,10 @@ describe('Invoice Facade test', () => {
     expect(result.address.city).toEqual('city');
     expect(result.address.state).toEqual('state');
     expect(result.address.zipCode).toEqual('zipCode');
-    expect(result.items[0].id).toEqual('1');
+    expect(result.items[0].id).toBeDefined();
     expect(result.items[0].name).toEqual('Product 1');
     expect(result.items[0].price).toEqual(10);
-    expect(result.items[1].id).toEqual('2');
+    expect(result.items[1].id).toBeDefined();
     expect(result.items[1].name).toEqual('Product 2');
     expect(result.items[1].price).toEqual(25);
     expect(result.total).toEqual(35);

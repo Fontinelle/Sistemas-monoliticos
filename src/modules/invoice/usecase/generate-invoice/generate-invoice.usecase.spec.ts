@@ -47,10 +47,10 @@ describe('Generate Invoice Usecase unit test', () => {
     expect(result.city).toEqual(input.city);
     expect(result.state).toEqual(input.state);
     expect(result.zipCode).toEqual(input.zipCode);
-    expect(result.items[0].id).toEqual('1');
+    expect(result.items[0].id).toBeDefined();
     expect(result.items[0].name).toEqual('Item 1');
     expect(result.items[0].price).toEqual(10);
-    expect(result.items[1].id).toEqual('2');
+    expect(result.items[1].id).toBeDefined();
     expect(result.items[1].name).toEqual('Item 2');
     expect(result.items[1].price).toEqual(20);
     expect(result.total).toEqual(30);

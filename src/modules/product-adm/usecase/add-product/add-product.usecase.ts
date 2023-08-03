@@ -11,15 +11,13 @@ export default class AddProductUsecase {
   }
 
   async execute(input: AddProductInputDto): Promise<AddProductOutputDto> {
-    const props = {
+    const product = new Product({
       id: new Id(input.id),
       name: input.name,
       description: input.description,
       purchasePrice: input.purchasePrice,
       stock: input.stock,
-    };
-
-    const product = new Product(props);
+    });
     this._productRepository.add(product);
 
     return {
